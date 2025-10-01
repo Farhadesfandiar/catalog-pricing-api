@@ -36,11 +36,10 @@ final class Price
   public function withDiscount(int $percent): self
   {
     if ($percent < 1 || $percent > 100) {
-      throw new \InvalidArgumentException('Wrong value for discount percentage.');
+      throw new \InvalidArgumentException('Wrong value for discount percentage. [1..100]');
     }
 
-    // todo: check the accuracy of the calculation
-    $final = intdiv($this->amount * (100 - $percent), 100);
+    $final = (int) floor(($this->amount * (100 - $percent)) / 100);
 
     return new self($final, $this->currency);
   }

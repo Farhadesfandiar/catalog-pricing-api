@@ -14,7 +14,7 @@ final class Category
       throw new \InvalidArgumentException('Category value cannot be empty.');
     }
 
-    if (!preg_match('/^[\p{L}\p{M}\p{N}_-]+$/u', $normalizedValue)) {
+    if (!preg_match('/^[a-z0-9_-]+$/', $normalizedValue)) {
       throw new \InvalidArgumentException(
         'Category may contain only letters and numbers.'
       );

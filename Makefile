@@ -29,7 +29,9 @@ test:
 compose-build:
 	@docker compose build
 
-build-app:
+# build the application and run it with a single command
+.PHONY: app-build-up
+app-build-up:
 	$(MAKE) compose-build
 	$(MAKE) up
 	$(MAKE) db-wait

@@ -8,7 +8,7 @@ use App\Domain\Product\ProductRepositoryInterface;
 use App\Infrastructure\Doctrine\Entity\ProductEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Infrastructure\Doctrine\Mapper\ProductMapper;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 
 final class DoctrineProductRepository implements ProductRepositoryInterface
 {
@@ -31,8 +31,7 @@ final class DoctrineProductRepository implements ProductRepositoryInterface
       $qb->andWhere('p.price <= :max')->setParameter('max', $priceLessThan);
     }
 
-    //todo: check below error
-    foreach ($qb->getQuery()->toIterable([], Query::HYDRATE_OBJECT) as $p) {
+    foreach ($qb->getQuery()->toIterable([], AbstractQuery::HYDRATE_OBJECT) as $p) {
       yield ProductMapper::toDomain( $p);
     }
   }
