@@ -3,7 +3,8 @@ MAKEFLAGS += --silent
 SHELL := /usr/bin/bash
 ENV ?= dev
 
-.PHONY: composer composer-install composer-update composer-require composer-dump compose-build compose-up compose-down
+.PHONY: composer composer-install composer-update composer-require composer-dump \
+        compose-build up down app-build-up test warm shell php-exec db-wait migrate seed
 
 COMPOSER_IMAGE := composer:2
 DOCKER_COMPOSER := docker run --rm -v "$(PWD)":/app -w /app --user $$(id -u):$$(id -g) $(COMPOSER_IMAGE)
