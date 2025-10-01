@@ -1,0 +1,5 @@
+parameters:
+  discounts.categories:
+      boots: 30
+  discounts.skus:
+    '000003': 15

@@ -1,0 +1,15 @@
+node_modules
+vendor
+var
+.git
+.idea
+.vscode
+.DS_Store
+docker/.dockerignore
+**/.env*
+**/.cache
+coverage
+npm-debug.log*
+yarn-error.log*
+
+

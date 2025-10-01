@@ -1,0 +1,14 @@
+node_modules
+vendor
+var
+.git
+.idea
+.vscode
+.DS_Store
+**/.env*
+**/.cache
+coverage
+npm-debug.log*
+yarn-error.log*
+
+
