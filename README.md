@@ -33,7 +33,7 @@ Here are the rules, simplified:
 
 ### Run the App
  In the root directory of the project run the below command.It builds and runs the application:
-**`make app-build-run`**
+**`make app-build-up`**
 The above command peforms the below steps:
 - builds the image
 - runs containers 
