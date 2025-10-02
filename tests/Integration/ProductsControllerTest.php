@@ -21,4 +21,16 @@ final class ProductsControllerTest extends WebTestCase
     $this->assertArrayHasKey('final', $data[0]['price']);
   }
 
+  public function testReturnsAtMostFiveProducts(): void
+  {
+    $client = static::createClient();
+    // No filters: should still cap at 5
+    $client->request('GET', '/products');
+
+    $this->assertResponseIsSuccessful();
+    $data = json_decode((string) $client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
+    $this->assertIsArray($data);
+    $this->assertLessThanOrEqual(5, count($data));
+  }
+
 }

@@ -25,11 +25,18 @@ class SeedProductsCommand extends Command
   protected function configure(): void
   {
     $this
-      ->addArgument('count', InputArgument::OPTIONAL, 'Number of products to seed')
       ->addOption('if-empty', null, InputOption::VALUE_NONE, 'Seed only if products table is empty')
     ;
   }
 
+  /**
+   * @return list<array{
+   *   sku: string,
+   *   name: string,
+   *   category: string,
+   *   price: int
+   * }>
+   */
   private function seed(): array
   {
     return [
@@ -38,18 +45,13 @@ class SeedProductsCommand extends Command
       ['sku' => '000003', 'name' => 'Ashlington leather ankle boots', 'category' => 'boots', 'price' => 71000],
       ['sku' => '000004', 'name' => 'Naima embellished suede sandals', 'category' => 'sandals', 'price' => 79500],
       ['sku' => '000005', 'name' => 'Nathane leather sneakers', 'category' => 'sneakers', 'price' => 59000],
+      ['sku' => '000006', 'name' => 'John Lobb', 'category' => 'sandals', 'price' => 151000],
+      ['sku' => '000007', 'name' => 'Brioni', 'category' => 'boots', 'price' => 140000],
     ];
   }
 
   protected function execute(InputInterface $input, OutputInterface $output): int
   {
-    $io = new SymfonyStyle($input, $output);
-    $count = $input->getArgument('count');
-
-    if ($count) {
-      $io->note(sprintf('You passed an argument: %s', $count));
-    }
-
     if ($input->getOption('if-empty')) {
       // Matches the mapped table name used by Doctrine entity: product
       $count = (int) $this->db->fetchOne('SELECT COUNT(*) FROM product');

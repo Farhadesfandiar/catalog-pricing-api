@@ -10,7 +10,13 @@ use App\Domain\Product\Product;
  */
 final class SkuDiscountRule implements DiscountRuleInterface
 {
-  public function __construct(private array $skuToPercent) {}
+
+  /**
+   * @param array<string,int> $skuToPercent
+   */
+  public function __construct(private array $skuToPercent)
+  {
+  }
 
   /**
    * @param Product $product

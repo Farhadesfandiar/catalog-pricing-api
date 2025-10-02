@@ -9,6 +9,10 @@ final class PriceInfo
 {
   public function __construct(public Price $original, public Price $final, public ?int $discountPercentage) {}
 
+  /**
+   * 
+   * @return array{currency: string, discount_percentage: string|null, final: int, original: int}
+   */
   public function toArray(): array
   {
     return [

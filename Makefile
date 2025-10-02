@@ -25,7 +25,16 @@ composer-dump:
 
 .PHONY: test
 test:
+	echo "--------------------------------"
+	echo "Running Integration and Unit tests..."
+	echo "--------------------------------"
 	@docker compose exec -e APP_ENV=test -e APP_DEBUG=1 php sh -lc "php -d memory_limit=-1 vendor/bin/phpunit"
+
+test-phpstan:
+	echo "--------------------------------"
+	echo "Running PHPStan analysis on level 8..."
+	echo "--------------------------------"
+	$(MAKE) php-exec CMD="vendor/bin/phpstan analyse -c phpstan.neon --memory-limit=1G"
 
 compose-build:
 	@docker compose build

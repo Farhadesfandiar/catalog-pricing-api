@@ -10,8 +10,18 @@ use App\Domain\Discount\PriceInfo;
 
 final class GetProductsHandler
 {
-  public function __construct(private readonly ProductRepositoryInterface $repo, private readonly DiscountServiceInterface $discounts) {}
+  public function __construct(private readonly ProductRepositoryInterface $repo, private readonly DiscountServiceInterface $discounts)
+  {
+  }
 
+  /**
+   * @return list<array{
+   *   sku: string,
+   *   name: string,
+   *   category: string,
+   *   price: array{original:int, final:int, discount_percentage:?string, currency:string}
+   * }>
+   */
   public function __invoke(GetProductsQuery $query): array
   {
 
