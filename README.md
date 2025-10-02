@@ -1,14 +1,15 @@
 ## Product Filter API
 REST API that lists products with **category/SKU discount rules** applied and supports filtering.
 Tech stack and features:
+- **Domain-centric architecture**.
 - **Symfony 6.4**
+- **PHP 8.4**
 - **MySQL (Doctrine)**
 - **Dockerized** 
   - Nginx
   - PHP
   - MySQL
   - Adminer
-- **Domain-centric architecture**.
 --------------
 
 Here are the rules, simplified:
@@ -62,7 +63,9 @@ Now the API request can be sent to the endpoint below:
 `curl 'http://localhost:8080/products?category=boots&priceLessThan=80000'`
 
 ### Test
- `make test` Runs two type integration and unit tests.
+- Runs both integration and unit tests with `make test`
+
+- Static analysis is enabled at level 8 with PHPStan and can be run: `make test-phpstan`
 
 In case of setting a value for API_KEY in the .env file, the authentication security will be activated for the API!
 
@@ -76,7 +79,7 @@ src/
 │  └─ GetProductsHandler.php                   # Orchestrate the logic
 ├─ Domain/
 │  ├─ Product/
-│  │  ├─ Product.php                           # sku, name, Category, Price (original)
+│  │  ├─ Product.php                           # sku, name, Category, Price(original)
 │  │  ├─ Price.php                             # discounted(int %)
 │  │  ├─ Category.php                          
 │  │  └─ ProductRepositoryInterface.php        # port;
@@ -101,7 +104,7 @@ src/
 │        └─ InMemoryProductRepository.php      # port to in-memory data (for tests; no I/O)
 ```
 ## Domain
-I kept the pure domain models (src/Domain/\*) separated from the persistence models (src/Infrastructure/Doctrine/Entity/\*)
+I kept the domain models (src/Domain/\*) separated from the persistence models (src/Infrastructure/Doctrine/Entity/\*)
 - The goal is to keep the logics pure, composable, and testable
 - Everything here is pure PHP (no I/O), so unit tests are fast and deterministic.
 ### Product
@@ -109,7 +112,7 @@ I kept the pure domain models (src/Domain/\*) separated from the persistence mod
 
 **Price** compute the discount
 
-We do not persist final or discount_percentage. they’re derived.
+We do not persist final or discount_percentage. They’re derived via the discount domain.
 
 ### Discount
 - Adding new discount rules without touching existing ones. Interfaces are implemented here. Add new discounts by adding new rule classes; no switch/case anywhere.
@@ -122,11 +125,11 @@ The data persistance layer is plugeable and can be swapped per environment or st
 
 ### Doctrine (MySQL):
 ProductEntity: maps to table product(sku, name, category, price)
-Indexes: category, price, and (id, category, price, sku)
+Indexes: id, sku, category, and price
 Fetching is capped with `LIMIT 5` to satisfy requirements and ensure predictable performance.
 
 ### InMemory (Tests)
-It is seeded by an array and is not depend on network or filesystem.
+The InMemoryProductiveRepository class is intended for testing; it is initialized from an array and does not rely on the network or filesystem.
 
 ## Application
 - Controller
@@ -159,3 +162,5 @@ It is seeded by an array and is not depend on network or filesystem.
 ]
 ```
 
+## License
+MIT

@@ -9,10 +9,12 @@ use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
+use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport;
+use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
 final class ApiKeyAuthenticator extends AbstractAuthenticator
 {
-  public function supports(Request $request): ?bool
+  public function supports(Request $request): bool
   {
     $expected = $_ENV['API_KEY'] ?? '';
     if ($expected === '') {
@@ -27,14 +29,14 @@ final class ApiKeyAuthenticator extends AbstractAuthenticator
     $provided = $request->headers->get('X-API-Key', '');
     $expected = $_ENV['API_KEY'] ?? '';
     if ($expected !== '' && hash_equals($expected, $provided)) {
-      return new \Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPassport(
-        new \Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge('api-key')
+      return new SelfValidatingPassport(
+        new UserBadge('api-key')
       );
     }
     throw new AuthenticationException('Invalid API key');
   }
 
-  public function onAuthenticationFailure(Request $r, AuthenticationException $e): ?JsonResponse
+  public function onAuthenticationFailure(Request $r, AuthenticationException $e): JsonResponse
   {
     return new JsonResponse(['error' => 'Unauthorized'], 401);
   }

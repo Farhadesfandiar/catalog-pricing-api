@@ -11,7 +11,10 @@ use App\Domain\Product\Category;
 
 final class DiscountRulesFactory
 {
-  /** @param array<string,int> $categoryPercents  @param array<string,int> $skuPercents */
+  /**
+   * @param array<string,int> $categoryPercents
+   * @param array<string,int> $skuPercents
+   */
   public function __construct(
     private readonly array $categoryPercents,
     private readonly array $skuPercents
@@ -37,7 +40,7 @@ final class DiscountRulesFactory
       $rules[] = new SkuDiscountRule($map);
     }
 
-    /** @var DiscountRuleInterface[] $rules */
+    /** @var list<CategoryDiscountRule|SkuDiscountRule> $rules */
     return new DiscountService($rules);
   }
 }
